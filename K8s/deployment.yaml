@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: learning-o11y
+  labels:
+    app: learning-o11y
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: learning-o11y
+  template:
+    metadata:
+      labels:
+        app: learning-o11y
+    spec:
+      containers:
+        - name: learning-o11y
+          image: learning-o11y
+          ports:
+            - containerPort: 8080
