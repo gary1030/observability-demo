@@ -12,16 +12,24 @@ import (
 
 func main() {
 	prom.Init()
-	r := gin.Default()
-	r.GET("/metrics", prom.PromHandler(promhttp.Handler()))
 
-	app := r.Group("/")
-	app.Use(prom.GinPromMiddleware)
+	appRouter := gin.Default()
+	appRouter.Use(prom.GinPromMiddleware)
+
+	app := appRouter.Group("/")
 	app.GET("/hello", handler.HelloHandler)
 	app.GET("/ping", handler.PingHandler)
 
-	err := r.Run(":8080")
-	if err != nil {
-		log.Fatalf("impossible to start server: %s", err)
+	go func() {
+		if err := appRouter.Run(":8080"); err != nil {
+			log.Fatalf("Failed to start application server: %v", err)
+		}
+	}()
+
+	metricsRouter := gin.Default()
+	metricsRouter.GET("/metrics", prom.PromHandler(promhttp.Handler()))
+
+	if err := metricsRouter.Run(":9090"); err != nil {
+		log.Fatalf("Failed to start metrics server: %v", err)
 	}
 }
