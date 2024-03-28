@@ -1,9 +1,8 @@
 package main
 
 import (
-	"log"
-
 	"github.com/gary1030/learning-o11y/internal/handler"
+	"github.com/gary1030/learning-o11y/pkg/log"
 	"github.com/gary1030/learning-o11y/pkg/prom"
 	"github.com/gin-gonic/gin"
 
@@ -12,9 +11,12 @@ import (
 
 func main() {
 	prom.Init()
+	log.InitLogFormatter()
 
-	appRouter := gin.Default()
+	appRouter := gin.New()
 	appRouter.Use(prom.GinPromMiddleware)
+	appRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
+	appRouter.Use(gin.Recovery())
 
 	app := appRouter.Group("/")
 	app.GET("/hello", handler.HelloHandler)
@@ -26,7 +28,9 @@ func main() {
 		}
 	}()
 
-	metricsRouter := gin.Default()
+	metricsRouter := gin.New()
+	metricsRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
+	metricsRouter.Use(gin.Recovery())
 	metricsRouter.GET("/metrics", prom.PromHandler(promhttp.Handler()))
 
 	if err := metricsRouter.Run(":9090"); err != nil {
