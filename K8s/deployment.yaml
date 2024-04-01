@@ -20,5 +20,8 @@ spec:
           ports:
             - containerPort: 8080
               name: server
-            - containerPort: 9090
+            - containerPort: 9999
               name: metrics
+          env:
+            - name: OTEL_ENDPOINT
+              value: otel-collector:4317

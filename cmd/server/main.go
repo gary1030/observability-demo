@@ -49,7 +49,7 @@ func main() {
 	metricsRouter.Use(gin.Recovery())
 	metricsRouter.GET("/metrics", prom.PromHandler(promhttp.Handler()))
 
-	if err := metricsRouter.Run(":9090"); err != nil {
+	if err := metricsRouter.Run(":9999"); err != nil {
 		log.Fatalf("Failed to start metrics server: %v", err)
 	}
 }

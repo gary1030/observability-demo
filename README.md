@@ -1,5 +1,9 @@
 # learning-o11y
 
+## Service Structure
+
+![image](./figure/structure.png)
+
 ## Run
 
 1. Start Prometheus
