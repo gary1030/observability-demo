@@ -31,9 +31,9 @@ func main() {
 
 	appRouter := gin.New()
 	appRouter.Use(prom.GinPromMiddleware)
-	appRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
 	appRouter.Use(gin.Recovery())
 	appRouter.Use(otelgin.Middleware(config.ServiceName))
+	appRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
 
 	app := appRouter.Group("/")
 	app.GET("/hello", handler.HelloHandler)

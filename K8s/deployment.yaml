@@ -24,4 +24,4 @@ spec:
               name: metrics
           env:
             - name: OTEL_ENDPOINT
-              value: otel-collector:4317
+              value: otel-collector.sre-system.svc.cluster.local:4317

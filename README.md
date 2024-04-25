@@ -25,7 +25,6 @@ go run cmd/server/main.go
 ```sh
 kubectl apply -f K8s/deployment.yaml
 kubectl get pods
-kubectl exec --stdin --tty learning-o11y-<your-pod-id> -- /bin/bash
 kubectl logs learning-o11y-<your-pod-id>
 ```
 

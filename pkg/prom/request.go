@@ -24,7 +24,7 @@ var (
 		prometheus.HistogramOpts{
 			Name:    "request_duration_seconds",
 			Help:    "HTTP request duration distribution in milliseconds",
-			Buckets: []float64{0.1, 0.2, 0.5, 1, 2, 5, 10, 100, 1000},
+			Buckets: []float64{1, 2, 5, 10, 100, 500, 1000},
 		},
 	)
 )
