@@ -6,13 +6,13 @@
 
 ## Run
 
-1. Start Prometheus
+1. Start Service
 
 ```sh
 docker-compose up -d
 ```
 
-2. Start Server
+2. (Optional) Start Backend Service Locally
 
 ```sh
 go run cmd/server/main.go

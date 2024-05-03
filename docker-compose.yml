@@ -1,6 +1,19 @@
-version: '3'
+version: '3.8'
 
 services:
+  backend:
+    build: .
+    container_name: learning-o11y-backend
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_ENDPOINT=otel-collector:4317
+    depends_on:
+      - prometheus
+      - tempo
+      - otel-collector
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -13,10 +26,22 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
     expose:
       - '9090'
     ports:
       - 9090:9090
+
+  beyla:
+    image: grafana/beyla:latest
+    command: ["--config=/etc/beyla/config.yaml"]
+    pid: "service:backend"
+    privileged: true
+    environment:
+      - BEYLA_PRINT_TRACES=true
+      - BEYLA_OPEN_PORT=8080
+    volumes:
+      - ./beyla/:/etc/beyla/
 
   tempo:
     image: grafana/tempo:latest

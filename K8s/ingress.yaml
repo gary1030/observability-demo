@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: learning-o11y
+spec:
+  rules:
+    - host: learning-o11y.line.dev
+      http:
+        paths:
+          - backend:
+              service:
+                name: learning-o11y-service
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
