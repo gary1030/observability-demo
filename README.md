@@ -18,6 +18,20 @@ docker-compose up -d
 go run cmd/server/main.go
 ```
 
+### API
+
+1. Create Task
+
+```sh
+curl http://localhost:8080/task -X POST -d '{"description": "Learning Observability"}'
+```
+
+2. Get Task List
+
+```sh
+curl http://localhost:8080/task
+```
+
 ## Kubernetes
 
 ### Deployment

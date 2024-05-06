@@ -5,6 +5,7 @@ import (
 
 	"github.com/gary1030/learning-o11y/config"
 	"github.com/gary1030/learning-o11y/internal/handler"
+	"github.com/gary1030/learning-o11y/internal/routes"
 	"github.com/gary1030/learning-o11y/pkg/log"
 	"github.com/gary1030/learning-o11y/pkg/otel"
 	"github.com/gary1030/learning-o11y/pkg/prom"
@@ -34,6 +35,8 @@ func main() {
 	appRouter.Use(gin.Recovery())
 	appRouter.Use(otelgin.Middleware(config.ServiceName))
 	appRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
+
+	routes.SetTaskRoute(appRouter)
 
 	app := appRouter.Group("/")
 	app.GET("/hello", handler.HelloHandler)
