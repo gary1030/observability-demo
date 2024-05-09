@@ -1,3 +1,5 @@
 routes:
   ignored_patterns:
     - /metrics
+
+insecure_skip_verify: true

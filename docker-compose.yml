@@ -38,6 +38,9 @@ services:
     environment:
       - BEYLA_PRINT_TRACES=true
       - BEYLA_OPEN_PORT=8080
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - BEYLA_OTEL_INSECURE_SKIP_VERIFY=true
     volumes:
       - ./beyla/:/etc/beyla/
 
