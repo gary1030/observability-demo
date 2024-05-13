@@ -43,6 +43,8 @@ services:
       - BEYLA_OTEL_INSECURE_SKIP_VERIFY=true
     volumes:
       - ./beyla/:/etc/beyla/
+    depends_on:
+      - backend
 
   tempo:
     image: grafana/tempo:latest
