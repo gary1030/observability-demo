@@ -1,17 +1,16 @@
-package sqlite
+package database
 
 import (
-	"database/sql"
-
-	_ "github.com/mattn/go-sqlite3" // Import go-sqlite3 library
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 type Database struct {
-	*sql.DB
+	*gorm.DB
 }
 
 func NewDatabase(dataSourceName string) (*Database, error) {
-	db, err := sql.Open("sqlite3", dataSourceName)
+	db, err := gorm.Open(sqlite.Open(dataSourceName), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}

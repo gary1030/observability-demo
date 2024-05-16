@@ -43,7 +43,7 @@ func main() {
 	app.GET("/ping", handler.PingHandler)
 
 	go func() {
-		if err := appRouter.Run(":8080"); err != nil {
+		if err := appRouter.Run(":8081"); err != nil {
 			log.Fatalf("Failed to start application server: %v", err)
 		}
 	}()

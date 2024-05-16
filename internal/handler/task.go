@@ -56,10 +56,11 @@ func (t *TaskHandler) CreateTask(c *gin.Context) {
 		return
 	}
 
-	if err := t.taskRepository.CreateTask(ctx, input.Description); err != nil {
+	task, err := t.taskRepository.CreateTask(ctx, input.Description)
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create task"})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Task created successfully"})
+	c.JSON(http.StatusCreated, gin.H{"message": "Task created successfully", "data": task})
 }
