@@ -43,7 +43,7 @@ func main() {
 	app.GET("/ping", handler.PingHandler)
 
 	go func() {
-		if err := appRouter.Run(config.ServicePort); err != nil {
+		if err := appRouter.Run(":" + config.ServicePort); err != nil {
 			log.Fatalf("Failed to start application server: %v", err)
 		}
 	}()

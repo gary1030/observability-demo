@@ -22,6 +22,6 @@ func Init() {
 	viper.SetDefault("OTEL_ENDPOINT", "localhost:4317")
 	OTELEndpoint = viper.GetString("OTEL_ENDPOINT")
 
-	viper.SetDefault("SERVICE_PORT", ":8080")
+	viper.SetDefault("SERVICE_PORT", "8080")
 	ServicePort = viper.GetString("SERVICE_PORT")
 }

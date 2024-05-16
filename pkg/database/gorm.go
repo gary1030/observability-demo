@@ -6,6 +6,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"gorm.io/plugin/prometheus"
 )
 
 type Database struct {
@@ -19,6 +20,12 @@ func NewDatabase(dataSourceName string) (*Database, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	db.Use(prometheus.New(prometheus.Config{
+		DBName:          dataSourceName,
+		RefreshInterval: 15,
+		StartServer:     false,
+	}))
 
 	return &Database{db}, nil
 }
