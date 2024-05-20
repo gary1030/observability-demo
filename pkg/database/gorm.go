@@ -6,7 +6,7 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"gorm.io/plugin/prometheus"
+	"gorm.io/plugin/opentelemetry/tracing"
 )
 
 type Database struct {
@@ -21,11 +21,9 @@ func NewDatabase(dataSourceName string) (*Database, error) {
 		return nil, err
 	}
 
-	db.Use(prometheus.New(prometheus.Config{
-		DBName:          dataSourceName,
-		RefreshInterval: 15,
-		StartServer:     false,
-	}))
+	if err := db.Use(tracing.NewPlugin()); err != nil {
+		panic(err)
+	}
 
 	return &Database{db}, nil
 }

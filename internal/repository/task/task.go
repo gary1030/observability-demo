@@ -36,7 +36,7 @@ func NewRepository() (*Repository, error) {
 }
 
 func (r *Repository) CreateTask(ctx context.Context, description string) (*Task, error) {
-	_, span := otel.StartNewSpan(ctx)
+	ctx, span := otel.StartNewSpan(ctx)
 	defer span.End()
 
 	task := Task{
@@ -44,7 +44,7 @@ func (r *Repository) CreateTask(ctx context.Context, description string) (*Task,
 		Done:        false,
 	}
 
-	result := r.db.Create(&task)
+	result := r.db.WithContext(ctx).Create(&task)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -53,11 +53,11 @@ func (r *Repository) CreateTask(ctx context.Context, description string) (*Task,
 }
 
 func (r *Repository) ListTasks(ctx context.Context) ([]*Task, error) {
-	_, span := otel.StartNewSpan(ctx)
+	ctx, span := otel.StartNewSpan(ctx)
 	defer span.End()
 
 	var tasks []*Task
-	result := r.db.Find(&tasks)
+	result := r.db.WithContext(ctx).Find(&tasks)
 	if result.Error != nil {
 		return nil, result.Error
 	}

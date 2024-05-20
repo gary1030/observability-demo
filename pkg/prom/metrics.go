@@ -39,6 +39,6 @@ func GinPromMiddleware(c *gin.Context) {
 		ResSizeBytes.Observe(0)
 	}
 
-	elapsedTime := float64(time.Since(start)) / float64(time.Millisecond)
+	elapsedTime := float64(time.Since(start)) / float64(time.Second)
 	ReqDuration.Observe(elapsedTime)
 }
