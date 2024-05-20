@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: learning-o11y
-          image: garyhu1030/learning-o11y:v0.1.2
+          image: garyhu1030/learning-o11y:v0.2.0
           ports:
             - containerPort: 8080
               name: server

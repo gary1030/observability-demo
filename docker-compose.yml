@@ -17,7 +17,7 @@ services:
     image: prom/prometheus:latest
     restart: always
     volumes:
-      - ./prometheus/:/etc/prometheus/
+      - ./config/prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -42,7 +42,7 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
       - BEYLA_OTEL_INSECURE_SKIP_VERIFY=true
     volumes:
-      - ./beyla/:/etc/beyla/
+      - ./config/beyla/:/etc/beyla/
     depends_on:
       - backend
 
@@ -51,7 +51,7 @@ services:
     command: [ "-config.file=/etc/tempo/tempo.yaml" ]
     restart: always
     volumes:
-      - ./tempo/:/etc/tempo/
+      - ./config/tempo/:/etc/tempo/
       - tempo_data:/tmp/tempo
     # ports:
     #   - "3200:3200"   # tempo
@@ -60,10 +60,10 @@ services:
     #   - "4318:4318"  # otlp http
 
   otel-collector:
-    image: otel/opentelemetry-collector:latest
+    image: otel/opentelemetry-collector-contrib:latest
     command: ["--config=/etc/otel-collector/config.yaml"]
     volumes:
-      - ./otel-collector/:/etc/otel-collector/
+      - ./config/otel-collector/:/etc/otel-collector/
     ports:
       - "4317:4317"  # otlp grpc
       - "4318:4318"  # otlp http
