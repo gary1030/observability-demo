@@ -11,6 +11,26 @@ processors:
         value: 'otel-collector'
         action: insert
 
+  batch:
+    send_batch_size: 8192
+    timeout: 200ms
+
+  filter:
+    spans:
+      exclude:
+        match_type: regexp
+        span_names:
+          - ^/opentelemetry.*
+
+  memory_limiter:
+    check_interval: 10s
+    limit_mib: 4000
+    spike_limit_mib: 500
+
+  probabilistic_sampler:
+    hash_seed: 22
+    sampling_percentage: 30
+
 exporters:
   otlp:
     endpoint: 'tempo:4317'
@@ -23,7 +43,8 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [attributes]
+      processors:
+        [attributes, batch, filter, memory_limiter, probabilistic_sampler]
       exporters: [otlp]
     metrics:
       receivers: [otlp]
