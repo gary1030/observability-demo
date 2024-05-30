@@ -37,6 +37,7 @@ func main() {
 	appRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
 
 	routes.SetTaskRoute(appRouter)
+	routes.SetJokeRoute(appRouter)
 
 	app := appRouter.Group("/")
 	app.GET("/hello", handler.HelloHandler)
