@@ -43,8 +43,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors:
-        [attributes, batch, filter, memory_limiter, probabilistic_sampler]
+      processors: [attributes, batch, filter, memory_limiter]
       exporters: [otlp]
     metrics:
       receivers: [otlp]

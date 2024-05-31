@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 func main() {
@@ -33,7 +32,7 @@ func main() {
 	appRouter := gin.New()
 	appRouter.Use(prom.GinPromMiddleware)
 	appRouter.Use(gin.Recovery())
-	appRouter.Use(otelgin.Middleware(config.ServiceName))
+	appRouter.Use(otel.Register())
 	appRouter.Use(gin.LoggerWithFormatter(log.GinLogFormatter))
 
 	routes.SetTaskRoute(appRouter)
