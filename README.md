@@ -4,18 +4,12 @@
 
 ![image](./figure/structure.png)
 
-## Run
+## Getting Started
 
 1. Start Service
 
 ```sh
 docker-compose up -d
-```
-
-2. (Optional) Start Backend Service Locally
-
-```sh
-go run cmd/server/main.go
 ```
 
 ### API

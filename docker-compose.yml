@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  backend:
-    build: .
+  server:
+    build: ./server
     restart: always
     ports:
       - "8080:8080"
@@ -33,7 +33,7 @@ services:
   beyla:
     image: grafana/beyla:latest
     command: ["--config=/etc/beyla/config.yaml"]
-    pid: "service:backend"
+    pid: "service:server"
     privileged: true
     environment:
       - BEYLA_PRINT_TRACES=true
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./config/beyla/:/etc/beyla/
     depends_on:
-      - backend
+      - server
 
   tempo:
     image: grafana/tempo:latest
