@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: Create and publish Docker images
 
 on:
   push:
@@ -6,12 +6,19 @@ on:
       - v*
 
 env:
-  IMAGE_NAME: garyhu1030/learning-o11y
+  SERVER_IMAGE_NAME: garyhu1030/opentelemetry-demo-server
+  TELLME_APP_IMAGE_NAME: garyhu1030/opentelemetry-demo-tellme-app
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker images to Docker Hub
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        app:
+          - { name: 'server', path: 'server' }
+          - { name: 'tellme-app', path: 'tellme-app' }
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -26,13 +33,13 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.IMAGE_NAME }}
+          images: ${{ env[matrix.app.name | upper | replace('-', '_') | append('_IMAGE_NAME') ] }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: Dockerfile
+          context: ./${{ matrix.app.path }}
+          file: ${{ matrix.app.path }}/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
