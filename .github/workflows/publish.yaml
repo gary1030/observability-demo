@@ -35,7 +35,8 @@ jobs:
         with:
           images: ${{ env[matrix.app.name | upper | replace('-', '_') | append('_IMAGE_NAME') ] }}
 
-      - name: Build and push Docker image
+     - name: Build and push Docker image
+        if: matrix.app.name == 'server'
         uses: docker/build-push-action@v3
         with:
           context: ./${{ matrix.app.path }}
@@ -43,3 +44,17 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push Docker image for tellme-app
+        if: matrix.app.name == 'tellme-app'
+        uses: docker/build-push-action@v3
+        with:
+          context: ./${{ matrix.app.path }}
+          file: ${{ matrix.app.path }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            NEXT_PUBLIC_BACKEND_URL=${{ vars.NEXT_PUBLIC_BACKEND_URL }}
+            NEXT_PUBLIC_FARO_API_KEY=${{ vars.NEXT_PUBLIC_FARO_API_KEY }}
+            NEXT_PUBLIC_FARO_COLLECT_ENDPOINT=${{ vars.NEXT_PUBLIC_FARO_COLLECT_ENDPOINT }}
