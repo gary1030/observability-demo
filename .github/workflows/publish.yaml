@@ -10,7 +10,7 @@ env:
   TELLME_APP_IMAGE_NAME: garyhu1030/opentelemetry-demo-tellme-app
 
 jobs:
-  push_to_registry:
+  push-to-registry:
     name: Push Docker images to Docker Hub
     runs-on: ubuntu-latest
     strategy:
