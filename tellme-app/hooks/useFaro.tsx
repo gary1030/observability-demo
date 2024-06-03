@@ -3,6 +3,8 @@ import { useRef, useEffect } from 'react';
 import { FetchInstrumentation } from '@grafana/faro-instrumentation-fetch';
 import { XHRInstrumentation } from '@grafana/faro-instrumentation-xhr';
 import { TracingInstrumentation } from '@grafana/faro-web-tracing';
+import { JaegerPropagator } from '@opentelemetry/propagator-jaeger';
+import { ZoneContextManager } from '@opentelemetry/context-zone';
 import {
   initializeFaro as coreInit,
   getWebInstrumentations,
@@ -16,6 +18,8 @@ function initializeFaro(): Faro {
       new RegExp(process.env.NEXT_PUBLIC_BACKEND_URL || ''),
     ],
   };
+  const propagator = new JaegerPropagator();
+  const contextManager = new ZoneContextManager();
   const faro = coreInit({
     url: process.env.NEXT_PUBLIC_FARO_COLLECT_ENDPOINT,
     apiKey: process.env.NEXT_PUBLIC_FARO_API_KEY,
@@ -29,7 +33,11 @@ function initializeFaro(): Faro {
       }),
       new FetchInstrumentation({}),
       new XHRInstrumentation({}),
-      new TracingInstrumentation({ instrumentationOptions }),
+      new TracingInstrumentation({
+        instrumentationOptions,
+        propagator,
+        contextManager,
+      }),
     ],
   });
 

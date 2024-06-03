@@ -10,7 +10,7 @@ services:
         NEXT_PUBLIC_FARO_COLLECT_ENDPOINT: https://alloy-gw.line.dev/sre-61a8/collect
     restart: always
     ports:
-      - '3000:3000'
+      - '3001:3000'
 
   server:
     build: ./server

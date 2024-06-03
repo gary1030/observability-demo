@@ -32,7 +32,7 @@ func main() {
 	appRouter := gin.New()
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowAllOrigins = true
-	corsConfig.AllowHeaders = append(corsConfig.AllowHeaders, "traceparent")
+	corsConfig.AllowHeaders = append(corsConfig.AllowHeaders, "traceparent", "uber-trace-id")
 	appRouter.Use(cors.New(corsConfig))
 
 	appRouter.Use(prom.GinPromMiddleware)

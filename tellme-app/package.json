@@ -13,6 +13,7 @@
     "@grafana/faro-instrumentation-xhr": "^1.7.3",
     "@grafana/faro-react": "^1.7.3",
     "@grafana/faro-web-tracing": "^1.7.3",
+    "@opentelemetry/propagator-jaeger": "^1.24.1",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"
