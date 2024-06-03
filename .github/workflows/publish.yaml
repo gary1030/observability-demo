@@ -5,10 +5,6 @@ on:
     tags:
       - v*
 
-env:
-  SERVER_IMAGE_NAME: garyhu1030/opentelemetry-demo-server
-  TELLME_APP_IMAGE_NAME: garyhu1030/opentelemetry-demo-tellme-app
-
 jobs:
   push-to-registry:
     name: Push Docker images to Docker Hub
@@ -16,8 +12,16 @@ jobs:
     strategy:
       matrix:
         app:
-          - { name: 'server', path: 'server' }
-          - { name: 'tellme-app', path: 'tellme-app' }
+          - {
+              name: 'server',
+              path: 'server',
+              image_name: 'garyhu1030/opentelemetry-demo-server',
+            }
+          - {
+              name: 'tellme-app',
+              path: 'tellme-app',
+              image_name: 'garyhu1030/opentelemetry-demo-tellme-app',
+            }
 
     steps:
       - name: Check out the repo
@@ -33,21 +37,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env[matrix.app.name | upper | replace('-', '_') | append('_IMAGE_NAME') ] }}
+          images: ${{ matrix.app.image_name }}
 
-     - name: Build and push Docker image
-        if: matrix.app.name == 'server'
-        uses: docker/build-push-action@v3
-        with:
-          context: ./${{ matrix.app.path }}
-          file: ${{ matrix.app.path }}/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: Build and push Docker image for tellme-app
-        if: matrix.app.name == 'tellme-app'
-        uses: docker/build-push-action@v3
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
         with:
           context: ./${{ matrix.app.path }}
           file: ${{ matrix.app.path }}/Dockerfile
