@@ -1,17 +1,26 @@
 version: '3.8'
 
 services:
+  tellme-app:
+    build:
+      context: ./tellme-app
+      args:
+        NEXT_PUBLIC_BACKEND_URL: http://localhost:8080
+        NEXT_PUBLIC_FARO_API_KEY: sre-c86e797
+        NEXT_PUBLIC_FARO_COLLECT_ENDPOINT: https://alloy-gw.line.dev/sre-61a8/collect
+    restart: always
+    ports:
+      - '3000:3000'
+
   server:
     build: ./server
     restart: always
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       - OTEL_ENDPOINT=otel-collector:4317
     depends_on:
       - prometheus
-      - tempo
-      - otel-collector
 
   prometheus:
     image: prom/prometheus:latest
@@ -32,8 +41,8 @@ services:
 
   beyla:
     image: grafana/beyla:latest
-    command: ["--config=/etc/beyla/config.yaml"]
-    pid: "service:server"
+    command: ['--config=/etc/beyla/config.yaml']
+    pid: 'service:server'
     privileged: true
     environment:
       - BEYLA_PRINT_TRACES=true
@@ -48,7 +57,7 @@ services:
 
   tempo:
     image: grafana/tempo:latest
-    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
+    command: ['-config.file=/etc/tempo/tempo.yaml']
     restart: always
     volumes:
       - ./config/tempo/:/etc/tempo/
@@ -61,13 +70,13 @@ services:
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:latest
-    command: ["--config=/etc/otel-collector/config.yaml"]
+    command: ['--config=/etc/otel-collector/config.yaml']
     volumes:
       - ./config/otel-collector/:/etc/otel-collector/
     ports:
-      - "4317:4317"  # otlp grpc
-      - "4318:4318"  # otlp http
-      - "55681:55681" # other receivers
+      - '4317:4317' # otlp grpc
+      - '4318:4318' # otlp http
+      - '55681:55681' # other receivers
     depends_on:
       - tempo
 
@@ -78,7 +87,7 @@ services:
       - tempo
       - prometheus
     ports:
-      - "3000:3000"
+      - '4000:3000'
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
