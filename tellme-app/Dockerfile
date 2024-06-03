@@ -27,6 +27,15 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+# Set up build-time environment variables
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_FARO_API_KEY
+ARG NEXT_PUBLIC_FARO_COLLECT_ENDPOINT
+
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_FARO_API_KEY=$NEXT_PUBLIC_FARO_API_KEY
+ENV NEXT_PUBLIC_FARO_COLLECT_ENDPOINT=$NEXT_PUBLIC_FARO_COLLECT_ENDPOINT
+
 RUN \
     if [ -f yarn.lock ]; then yarn run build; \
     elif [ -f package-lock.json ]; then npm run build; \
@@ -61,6 +70,14 @@ USER nextjs
 EXPOSE 3000
 
 ENV PORT 3000
+
+ARG NEXT_PUBLIC_BACKEND_URL
+ARG NEXT_PUBLIC_FARO_API_KEY
+ARG NEXT_PUBLIC_FARO_COLLECT_ENDPOINT
+
+ENV NEXT_PUBLIC_BACKEND_URL=$NEXT_PUBLIC_BACKEND_URL
+ENV NEXT_PUBLIC_FARO_API_KEY=$NEXT_PUBLIC_FARO_API_KEY
+ENV NEXT_PUBLIC_FARO_COLLECT_ENDPOINT=$NEXT_PUBLIC_FARO_COLLECT_ENDPOINT
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output

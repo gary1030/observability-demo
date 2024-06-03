@@ -9,8 +9,8 @@ import (
 	"github.com/gary1030/learning-o11y/server/pkg/log"
 	"github.com/gary1030/learning-o11y/server/pkg/otel"
 	"github.com/gary1030/learning-o11y/server/pkg/prom"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
@@ -30,6 +30,11 @@ func main() {
 	}()
 
 	appRouter := gin.New()
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowAllOrigins = true
+	corsConfig.AllowHeaders = append(corsConfig.AllowHeaders, "traceparent")
+	appRouter.Use(cors.New(corsConfig))
+
 	appRouter.Use(prom.GinPromMiddleware)
 	appRouter.Use(gin.Recovery())
 	appRouter.Use(otel.Register())
