@@ -7,10 +7,5 @@ import (
 )
 
 func Register() gin.HandlerFunc {
-
-	opts := []otelgin.Option{
-		PropagationExtractOption(),
-	}
-
-	return otelgin.Middleware(config.ServiceName, opts...)
+	return otelgin.Middleware(config.ServiceName)
 }
