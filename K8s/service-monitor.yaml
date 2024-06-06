@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: learning-o11y-metrics
+  name: opentelemetry-demo-server-metrics
   labels:
     team: techfresh
     monitoring: prometheus
@@ -11,7 +11,7 @@ spec:
       - techfresh
   selector:
     matchLabels:
-      app: learning-o11y
+      app: opentelemetry-demo-server
   endpoints:
     - interval: 15s
       targetPort: metrics

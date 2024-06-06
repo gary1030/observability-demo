@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: learning-o11y-service
+  name: opentelemetry-demo-server-service
   labels:
-    app: learning-o11y
+    app: opentelemetry-demo-server
 spec:
   type: ClusterIP
   ports:
@@ -16,4 +16,4 @@ spec:
       targetPort: metrics
       protocol: TCP
   selector:
-    app: learning-o11y
+    app: opentelemetry-demo-server

@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: learning-o11y
+  name: opentelemetry-demo-server
   labels:
-    app: learning-o11y
+    app: opentelemetry-demo-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: learning-o11y
+      app: opentelemetry-demo-server
   template:
     metadata:
       labels:
-        app: learning-o11y
+        app: opentelemetry-demo-server
     spec:
       containers:
-        - name: learning-o11y
-          image: garyhu1030/learning-o11y:v0.2.1
+        - name: opentelemetry-demo-server
+          image: garyhu1030/opentelemetry-demo-server:v0.3.1
           ports:
             - containerPort: 8080
               name: server
