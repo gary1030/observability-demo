@@ -6,8 +6,8 @@ services:
       context: ./tellme-app
       args:
         NEXT_PUBLIC_BACKEND_URL: http://localhost:8080
-        NEXT_PUBLIC_FARO_API_KEY: sre-c86e797
-        NEXT_PUBLIC_FARO_COLLECT_ENDPOINT: https://alloy-gw.line.dev/sre-61a8/collect
+        NEXT_PUBLIC_FARO_API_KEY: observability-demo
+        NEXT_PUBLIC_FARO_COLLECT_ENDPOINT: http://localhost:8027/collect
     restart: always
     ports:
       - '3001:3000'
@@ -19,8 +19,6 @@ services:
       - '8080:8080'
     environment:
       - OTEL_ENDPOINT=otel-collector:4317
-    depends_on:
-      - prometheus
 
   prometheus:
     image: prom/prometheus:latest
@@ -93,7 +91,22 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=password
 
+  alloy:
+    image: grafana/alloy:latest
+    volumes:
+      - ./config/alloy/config.alloy:/etc/alloy/config.alloy
+      - alloy_data:/var/lib/alloy/data
+    ports:
+      - '12345:12345'
+      - '8027:8027'
+    command:
+      - run
+      - --server.http.listen-addr=0.0.0.0:12345
+      - --storage.path=/var/lib/alloy/data
+      - /etc/alloy/config.alloy
+
 volumes:
   prometheus_data: {}
   tempo_data: {}
   grafana_data: {}
+  alloy_data: {}

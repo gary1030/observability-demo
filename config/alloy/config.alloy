@@ -1,0 +1,70 @@
+logging {
+  level  = "info"
+  format = "logfmt"
+}
+
+loki.write "logs_default" {
+  endpoint {
+    url       = "loki:3100"
+  }
+  external_labels = {}
+}
+
+otelcol.processor.batch "default" {
+  timeout             = "1ms"
+  send_batch_max_size = 10000
+
+  output {
+    metrics = []
+    logs    = []
+    traces  = [otelcol.exporter.otlp.default_0.input]
+  }
+}
+
+otelcol.exporter.otlp "default_0" {
+  sending_queue {
+    num_consumers = 30
+    queue_size    = 300
+  }
+
+  retry_on_failure {
+    initial_interval = "3s"
+    max_elapsed_time = "2m0s"
+  }
+
+  client {
+    endpoint = "otel-collector:4317"
+
+    tls {
+      insecure = true
+    }
+  }
+}
+
+faro.receiver "integrations_app_agent_receiver" {
+  extra_log_labels = {
+    data_source     = "@faro-sdk",
+  }
+
+  server {
+    listen_address           = "0.0.0.0"
+    listen_port              = "8027"
+    cors_allowed_origins     = ["*"]
+    api_key                  = "observability-demo"
+    max_allowed_payload_size = "4MiB786KiB832B"
+
+    rate_limiting {
+      rate       = 100
+      burst_size = 50
+    }
+  }
+
+  sourcemaps {
+    download = false
+  }
+
+  output {
+    logs   = []
+    traces = [otelcol.processor.batch.default.input]
+  }
+}
