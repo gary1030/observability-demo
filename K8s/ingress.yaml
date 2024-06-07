@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: opentelemetry-demo
+  name: observability-demo
 spec:
   rules:
     - host: learning-o11y.line.dev
@@ -9,7 +9,7 @@ spec:
         paths:
           - backend:
               service:
-                name: opentelemetry-demo-server-service
+                name: observability-demo-server-service
                 port:
                   number: 80
             path: /
@@ -20,7 +20,7 @@ spec:
         paths:
           - backend:
               service:
-                name: opentelemetry-demo-tellme-app-service
+                name: observability-demo-tellme-app-service
                 port:
                   number: 80
             path: /

@@ -1,7 +1,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: opentelemetry-demo-server-metrics
+  name: observability-demo-server-metrics
   labels:
     team: techfresh
     monitoring: prometheus
@@ -11,7 +11,7 @@ spec:
       - techfresh
   selector:
     matchLabels:
-      app: opentelemetry-demo-server
+      app: observability-demo-server
   endpoints:
     - interval: 15s
       targetPort: metrics

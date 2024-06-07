@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: opentelemetry-demo-server
+  name: observability-demo-server
   labels:
-    app: opentelemetry-demo-server
+    app: observability-demo-server
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: opentelemetry-demo-server
+      app: observability-demo-server
   template:
     metadata:
       labels:
-        app: opentelemetry-demo-server
+        app: observability-demo-server
     spec:
       containers:
-        - name: opentelemetry-demo-server
+        - name: observability-demo-server
           image: garyhu1030/opentelemetry-demo-server:v0.3.1
           ports:
             - containerPort: 8080

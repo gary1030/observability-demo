@@ -52,7 +52,7 @@ kubectl logs <your-pod-id>
 1. Port forward
 
 ```sh
-kubectl port-forward svc/opentelemetry-demo-tellme-app-service 3000:80
+kubectl port-forward svc/observability-demo-tellme-app-service 3000:80
 ```
 
 2. Open `http://localhost:3000` and click the button on the website.

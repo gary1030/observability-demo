@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: opentelemetry-demo-tellme-app
+  name: observability-demo-tellme-app
   labels:
-    app: opentelemetry-demo-tellme-app
+    app: observability-demo-tellme-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: opentelemetry-demo-tellme-app
+      app: observability-demo-tellme-app
   template:
     metadata:
       labels:
-        app: opentelemetry-demo-tellme-app
+        app: observability-demo-tellme-app
     spec:
       containers:
-        - name: opentelemetry-demo-tellme-app
+        - name: observability-demo-tellme-app
           image: garyhu1030/opentelemetry-demo-tellme-app:v0.3.1
           ports:
             - containerPort: 3000

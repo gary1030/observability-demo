@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: opentelemetry-demo-server-service
+  name: observability-demo-server-service
   labels:
-    app: opentelemetry-demo-server
+    app: observability-demo-server
 spec:
   type: ClusterIP
   ports:
@@ -16,4 +16,4 @@ spec:
       targetPort: metrics
       protocol: TCP
   selector:
-    app: opentelemetry-demo-server
+    app: observability-demo-server
