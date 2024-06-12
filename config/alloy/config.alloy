@@ -1,13 +1,27 @@
 logging {
   level  = "info"
-  format = "logfmt"
+  format = "json"
 }
 
-loki.write "logs_default" {
-  endpoint {
-    url       = "loki:3100"
+loki.process "logs_process_client" {
+  forward_to = [loki.write.logs_write_client.receiver]
+
+  stage.logfmt {
+      mapping = { "kind" = "", "service_name" = "", "app" = "" }
   }
-  external_labels = {}
+
+  stage.labels {
+      values = { "kind" = "kind", "service_name" = "service_name", "app" = "app" }
+  }
+}
+
+loki.write "logs_write_client" {
+  endpoint {
+    url       = "http://loki:3100/loki/api/v1/push"
+  }
+  external_labels = {
+    data_source = "loki",
+  }
 }
 
 otelcol.processor.batch "default" {
@@ -64,7 +78,7 @@ faro.receiver "integrations_app_agent_receiver" {
   }
 
   output {
-    logs   = []
+    logs   = [loki.process.logs_process_client.receiver]
     traces = [otelcol.processor.batch.default.input]
   }
 }

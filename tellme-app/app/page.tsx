@@ -32,7 +32,7 @@ export default function Home() {
             </button>
             {/* Other buttons can be placed here */}
           </div>
-          <Board content={joke} />{' '}
+          <Board content={joke} />
         </div>
       </div>
     </div>

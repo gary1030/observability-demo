@@ -91,6 +91,15 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=password
 
+  loki:
+    image: grafana/loki:latest
+    volumes:
+      - ./config/loki/config.yaml:/etc/loki/config.yaml
+    ports:
+      - '3100:3100'
+    command:
+      - '-config.file=/etc/loki/config.yaml'
+
   alloy:
     image: grafana/alloy:latest
     volumes:
