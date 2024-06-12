@@ -5,7 +5,7 @@ import useFaro from '@/hooks/useFaro';
 
 export default function Home() {
   const [joke, setJoke] = useState('');
-  useFaro();
+  const { faro } = useFaro();
 
   const fetchJoke = async () => {
     const apiUrl = process.env.NEXT_PUBLIC_BACKEND_URL + '/joke';
@@ -13,6 +13,9 @@ export default function Home() {
       const response = await fetch(apiUrl);
       const data = await response.json();
       setJoke(`${data.setup} \n\n ${data.punchline}`);
+      console.log(
+        JSON.stringify({ content: data.setup, punchline: data.punchline })
+      );
     } catch (error) {
       console.error('Failed to fetch joke from:', apiUrl, error);
       setJoke('Failed to fetch joke.');

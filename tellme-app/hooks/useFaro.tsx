@@ -27,9 +27,12 @@ function initializeFaro(): Faro {
       name: 'learning-o11y-app',
       version: '0.1.0',
     },
+    logArgsSerializer: (args) =>
+      args.map((arg) => JSON.stringify(arg)).join(' '),
     instrumentations: [
       ...getWebInstrumentations({
         captureConsole: true,
+        captureConsoleDisabledLevels: [],
       }),
       new FetchInstrumentation({}),
       new XHRInstrumentation({}),
@@ -54,5 +57,5 @@ export default function useFaro() {
     }
   }, []);
 
-  return { faroRef };
+  return { faro: faroRef.current };
 }
