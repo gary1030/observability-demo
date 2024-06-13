@@ -24,7 +24,7 @@ function initializeFaro(): Faro {
     url: process.env.NEXT_PUBLIC_FARO_COLLECT_ENDPOINT,
     apiKey: process.env.NEXT_PUBLIC_FARO_API_KEY,
     app: {
-      name: 'learning-o11y-app',
+      name: 'observability-demo-app',
       version: '0.1.0',
     },
     logArgsSerializer: (args) =>

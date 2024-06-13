@@ -12,7 +12,7 @@ var (
 )
 
 func Init() {
-	ServiceName = "learning-o11y"
+	ServiceName = "observability-demo-server"
 
 	viper.AutomaticEnv()
 

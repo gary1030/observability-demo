@@ -1,4 +1,4 @@
-# learning-o11y
+# Observability Demo
 
 ## Service Structure
 

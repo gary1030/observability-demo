@@ -4,7 +4,7 @@ metadata:
   name: observability-demo
 spec:
   rules:
-    - host: learning-o11y.line.dev
+    - host: observability-demo.dev
       http:
         paths:
           - backend:
@@ -15,7 +15,7 @@ spec:
             path: /
             pathType: Prefix
 
-    - host: learning-o11y-tellme-app.line.dev
+    - host: observability-demo-tellme-app.dev
       http:
         paths:
           - backend:
