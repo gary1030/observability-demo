@@ -3,7 +3,7 @@
 ## Service Structure
 
 <p align="center">
-    <img src="./figure/structure.png" width="600">
+    <img src="./figure/structure.png" width="900">
 </p>
 
 ## Getting Started
