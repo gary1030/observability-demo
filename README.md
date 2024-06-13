@@ -3,7 +3,7 @@
 ## Service Structure
 
 <p align="center">
-    <img src="./figure/structure.png" width="550">
+    <img src="./figure/structure.png" width="600">
 </p>
 
 ## Getting Started
@@ -13,6 +13,8 @@
 ```sh
 docker-compose up -d
 ```
+
+2. Open `http://localhost:3001` and click the button on the website.
 
 ### API
 
