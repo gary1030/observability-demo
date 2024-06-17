@@ -32,6 +32,7 @@ services:
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
       - '--web.enable-lifecycle'
+      - '--web.enable-remote-write-receiver'
     expose:
       - '9090'
     ports:
@@ -46,7 +47,7 @@ services:
       - BEYLA_PRINT_TRACES=true
       - BEYLA_OPEN_PORT=8080
       - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
-      - OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy:4318
       - BEYLA_OTEL_INSECURE_SKIP_VERIFY=true
     volumes:
       - ./config/beyla/:/etc/beyla/

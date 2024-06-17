@@ -28,18 +28,28 @@ loki.write "logs_write_client" {
   }
 }
 
+otelcol.receiver.otlp "default" {
+  grpc {}
+  http {}
+
+  output {
+    metrics = [otelcol.processor.batch.default.input]
+    traces = [otelcol.processor.batch.default.input]
+  }
+}
+
 otelcol.processor.batch "default" {
   timeout             = "1ms"
   send_batch_max_size = 10000
 
   output {
-    metrics = []
+    metrics = [otelcol.exporter.prometheus.default.input]
     logs    = []
-    traces  = [otelcol.exporter.otlp.default_0.input]
+    traces  = [otelcol.exporter.otlp.default.input]
   }
 }
 
-otelcol.exporter.otlp "default_0" {
+otelcol.exporter.otlp "default" {
   sending_queue {
     num_consumers = 30
     queue_size    = 300
@@ -56,6 +66,16 @@ otelcol.exporter.otlp "default_0" {
     tls {
       insecure = true
     }
+  }
+}
+
+otelcol.exporter.prometheus "default" {
+  forward_to = [prometheus.remote_write.prometheus.receiver]
+}
+
+prometheus.remote_write "prometheus" {
+  endpoint {
+    url = "http://prometheus:9090/api/v1/write"
   }
 }
 
