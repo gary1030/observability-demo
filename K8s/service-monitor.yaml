@@ -3,12 +3,8 @@ kind: ServiceMonitor
 metadata:
   name: observability-demo-server-metrics
   labels:
-    team: techfresh
     monitoring: prometheus
 spec:
-  namespaceSelector:
-    matchNames:
-      - techfresh
   selector:
     matchLabels:
       app: observability-demo-server
